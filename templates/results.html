@@ -208,5 +208,26 @@
             </div>
         </div>
     </div>
+
+    <!-- Page Viewer Modal -->
+    <div id="page-modal" class="modal">
+        <div class="modal-content" style="max-width: 90vw; max-height: 90vh;">
+            <div class="modal-header">
+                <h2 id="modal-title" class="text-xl font-semibold text-gray-800">Page Viewer</h2>
+                <button class="modal-close" onclick="closeModal('page-modal')">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-loading" class="text-center py-12">
+                    <div class="loader mx-auto mb-4" style="width: 40px; height: 40px; border-width: 4px;"></div>
+                    <p class="text-gray-600">Loading page image...</p>
+                </div>
+                <img id="modal-image" class="page-image" style="display: none;" alt="Page Image">
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -12,6 +12,9 @@ import logging
 from pdf2image import convert_from_path
 import io
 from PIL import Image
+from pdf2image import convert_from_path
+import io
+from PIL import Image
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -95,6 +98,43 @@ async def delete_project_route(project_id: str):
         return RedirectResponse(url="/dashboard", status_code=status.HTTP_303_SEE_OTHER)
     logger.error(f"Project not found: {project_id}")
     raise HTTPException(status_code=404, detail="Project not found")
+
+@app.get("/page-image/{project_id}/{page_number}")
+async def get_page_image(project_id: str, page_number: int):
+    logger.info(f"Serving page image for project: {project_id}, page: {page_number}")
+    
+    # Check if project exists
+    results = get_project_results(project_id)
+    if not results:
+        logger.error(f"Project not found: {project_id}")
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    # Get PDF file path
+    file_path = UPLOAD_DIR / f"{project_id}.pdf"
+    if not file_path.exists():
+        logger.error(f"PDF file not found: {file_path}")
+        raise HTTPException(status_code=404, detail="PDF file not found")
+    
+    try:
+        # Convert specific page to image
+        images = convert_from_path(str(file_path), dpi=150, first_page=page_number, last_page=page_number)
+        if not images:
+            raise HTTPException(status_code=404, detail="Page not found")
+        
+        # Convert PIL image to bytes
+        img_byte_arr = io.BytesIO()
+        images[0].save(img_byte_arr, format='PNG', optimize=True, quality=85)
+        img_byte_arr.seek(0)
+        
+        return Response(
+            content=img_byte_arr.getvalue(),
+            media_type="image/png",
+            headers={"Cache-Control": "public, max-age=3600"}
+        )
+        
+    except Exception as e:
+        logger.error(f"Error generating page image: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error generating page image")
 
 @app.get("/page-image/{project_id}/{page_number}")
 async def get_page_image(project_id: str, page_number: int):
