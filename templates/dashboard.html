@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autotake - Dashboard</title>
+    <link href="/static/css/styles.css" rel="stylesheet">
+    <script src="/static/js/scripts.js"></script>
+</head>
+<body class="min-h-screen">
+    <header class="header p-6">
+        <h1 class="text-3xl font-bold text-white">Autotake Dashboard</h1>
+    </header>
+    <main class="container mx-auto p-6">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800">Uploaded Projects</h2>
+            <a href="/upload" class="button-primary text-white px-6 py-3 rounded-lg font-medium">Upload New Project</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for project in projects %}
+            <div class="card p-6">
+                <h3 class="text-xl font-medium text-gray-800 truncate">{{ project.filename }}</h3>
+                <p class="text-sm text-gray-500 mt-2">Uploaded: {{ project.upload_date }}</p>
+                <div class="mt-4 flex space-x-4">
+                    <a href="/results/{{ project.project_id }}" class="button-primary text-white px-4 py-2 rounded-lg">View Results</a>
+                    <button data-project-id="{{ project.project_id }}" class="delete-project button-danger text-white px-4 py-2 rounded-lg">Delete</button>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-gray-600 text-lg">No projects uploaded yet.</p>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>
