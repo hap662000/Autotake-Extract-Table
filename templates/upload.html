@@ -55,6 +55,13 @@
                             <div id="progress-text" class="progress-text">Preparing upload...</div>
                         </div>
 
+                        <div id="progress-container" class="progress-container">
+                            <div class="progress-bar">
+                                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <div id="progress-text" class="progress-text">Preparing upload...</div>
+                        </div>
+
                         <div class="flex gap-4 mt-6">
                             <button type="submit" class="btn btn-primary flex-1">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -111,6 +118,14 @@
             </div>
         </div>
     </main>
+
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loader"></div>
+        <div class="loading-text">
+            <div class="text-xl font-semibold mb-2">Processing Your Document</div>
+            <div class="text-sm opacity-75">This may take a few moments...</div>
+        </div>
+    </div>
 
     <div id="loading-overlay" class="loading-overlay">
         <div class="loader"></div>
