@@ -8,24 +8,116 @@
     <script src="/static/js/scripts.js"></script>
 </head>
 <body class="min-h-screen">
-    <header class="header p-6">
-        <h1 class="text-3xl font-bold text-white">Autotake - Upload PDF</h1>
-    </header>
-    <main class="container mx-auto p-6">
-        <div class="card p-8 max-w-lg mx-auto">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-6">Upload Construction Document</h2>
-            <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data" class="space-y-6">
-                <div>
-                    <label for="file" class="block text-sm font-medium text-gray-700">Select PDF File</label>
-                    <input type="file" id="file" name="file" accept=".pdf" class="mt-2 w-full px-4 py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300" required>
-                </div>
-                <button type="submit" class="button-primary w-full text-white py-3 rounded-lg font-medium">Upload</button>
-            </form>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">AT</div>
+                <div class="logo-text">Autotake</div>
+            </div>
+            <nav class="nav-links">
+                <a href="/dashboard" class="nav-link">Dashboard</a>
+                <a href="/upload" class="nav-link">Upload</a>
+            </nav>
         </div>
-        <div id="loading-overlay" class="loading-overlay" style="display: none;">
-            <div class="loader"></div>
-            <p class="text-white text-lg mt-4">Processing your PDF...</p>
+    </header>
+
+    <main class="container py-8">
+        <div class="max-w-2xl mx-auto fade-in">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Upload Construction Document</h1>
+                <p class="text-gray-600">Upload your PDF file for automated plumbing drawing and schedule analysis</p>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="file" class="form-label">Select PDF File</label>
+                            <div class="file-input-wrapper">
+                                <input type="file" id="file" name="file" accept=".pdf" class="file-input" required>
+                                <div class="file-input-display">
+                                    <div id="file-input-text" class="text-center">
+                                        <svg class="file-icon mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                        </svg>
+                                        <div class="text-lg font-semibold text-gray-700 mb-2">Drop your PDF here</div>
+                                        <div class="text-sm text-gray-500">or click to browse files</div>
+                                        <div class="text-xs text-gray-400 mt-2">Maximum file size: 50MB</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="progress-container" class="progress-container">
+                            <div class="progress-bar">
+                                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <div id="progress-text" class="progress-text">Preparing upload...</div>
+                        </div>
+
+                        <div class="flex gap-4 mt-6">
+                            <button type="submit" class="btn btn-primary flex-1">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                </svg>
+                                Upload & Process
+                            </button>
+                            <a href="/dashboard" class="btn btn-secondary">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                </svg>
+                                Back to Dashboard
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">What happens next?</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <span class="text-sm font-semibold text-blue-600">1</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Document Analysis</h4>
+                                    <p class="text-sm text-gray-600">We'll analyze your PDF to identify plumbing-related pages</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <span class="text-sm font-semibold text-blue-600">2</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Content Classification</h4>
+                                    <p class="text-sm text-gray-600">Pages are classified as drawings or schedules using AI</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <span class="text-sm font-semibold text-blue-600">3</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Results Generation</h4>
+                                    <p class="text-sm text-gray-600">View organized results with page previews and details</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
+
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loader"></div>
+        <div class="loading-text">
+            <div class="text-xl font-semibold mb-2">Processing Your Document</div>
+            <div class="text-sm opacity-75">This may take a few moments...</div>
+        </div>
+    </div>
 </body>
 </html>
